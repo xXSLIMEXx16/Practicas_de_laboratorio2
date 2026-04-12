@@ -854,7 +854,7 @@ Tanto a `fread()` como `fwrite()` tenemos que pasarle, además de otros parámet
 
     FILE *archivo;
 
-    fread(&numero_leido, sizeof(int), 1, archivo);
+    fread(La dirección de donde empiezan los datos a guardar, sizeof(int), cantidad de datos a guardar, archivo que se abrio con fopen());
 
     fwrite(&numero, sizeof(int), 1, archivo);
 
