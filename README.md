@@ -723,7 +723,8 @@ La memoria dinámica en C se refiere a la capacidad de asignar y liberar memoria
     
 ```c
 //Reserva un bloque de memoria, pero NO lo inicializa.
-int *v = malloc(10 * sizeof(int));
+int *v;
+    v = (int *)malloc(10 * sizeof(int));
 ```
 ✔ Reserva espacio para 10 enteros
 
@@ -733,7 +734,8 @@ int *v = malloc(10 * sizeof(int));
 
 ```c
 //Hace lo mismo que malloc, pero inicializa todo en 0.
-int *v = calloc(10, sizeof(int));
+int *v;
+    v = (int *)calloc(10, sizeof(int));
 ```
 ✔ 10 enteros
 
@@ -745,6 +747,7 @@ int *v = calloc(10, sizeof(int));
 
 ```c
 //Cambia el tamaño de un bloque ya reservado.
+int *v;
 v = realloc(v, 20 * sizeof(int));
 ```
 ✔ Agranda o achica
@@ -849,19 +852,29 @@ Los archivos binarios almacenan datos numéricos en un formato que las computado
 * `SEEK_END`: Este modo mueve el puntero de posición al final del archivo. Cuando se utiliza fseek(file_pointer, offset, SEEK_END), el puntero se desplazará offset bytes desde el final del archivo.
 
 >Fread() y Fwrite()
-
 Tanto a `fread()` como `fwrite()` tenemos que pasarle, además de otros parámetros, el tamaño del tipo de datos en bytes, para ello utilizamos el operador sizeof.
 
+```c
     FILE *archivo;
 
-    fread(La dirección de donde se cargaran los datos, sizeof(int), cantidad de datos a cargar, archivo que se abrio con fopen());
+    fread(&numero_leido, sizeof(int),cantidad, archivo );
 
-    fwrite(La dirección de donde empiezan los datos a guardar, sizeof(int), cantidad de datos a guardar, archivo que se abrio con fopen());
+    fwrite(&numero, sizeof(int),cantidad, archivo );
+```
 
+```c
+ //Ejemplo
+Int num;
+FILE *pArchivo;
+fwrite(&num,sizeof(int),1,pArchivo);
+fread(&num,sizeof(int),1,pArchivo);
+```
+Cuando es una estructura:
+`Fwrite(&unapersona,sizeof(struct persona),1,pArchivo);`
 
-
-
-
+Saber cuantas estructuras se guardaron en un archivo que solo se escribe estructuras:
+`fseek(pArchivo,0,SEEK_END);`
+`Cantidad=ftell(pArchivo)/sizeof(struct persona);` // ftell devuelve el valor de tipo long, que representa el byte actual dentro del archivo en el que se encuentra el puntero.
 
 
 
